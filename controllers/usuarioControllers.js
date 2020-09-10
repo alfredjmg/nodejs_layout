@@ -31,22 +31,8 @@ exports.crearUsuario = async (req, res) => {
         // Guardar Usuario
         await usuario.save();
 
-        // Crear y firmar el jwt
-        const payload = {
-            usuario: {
-                id: usuario.id
-            }
-        };
-
-        // Firmar el token
-        jwt.sign(payload, process.env.SECRETA, {
-            expiresIn: 3600
-        }, (error,token) => {
-            if(error) throw error;
-
-            // Mensaje de confirmacion
-            res.json({ token });
-        });
+        req.session.user = usuario;
+        res.json(req.session);
         
     }catch(error){
         console.log("Error");

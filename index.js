@@ -1,4 +1,7 @@
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+var cookieSession = require('cookie-session')
 const conectarDB = require('./config/db');
 
 // crear el servidor
@@ -8,16 +11,29 @@ const app = express();
 conectarDB();
 
 // Habilitar express.json
-app.use( express.json({ extended: true }))
+app.use( express.json({ extended: true }));
+
+// COOKIE SESSION
+const cookie = { 
+    name: 'session',
+    keys: [
+        'Key1',
+        'Key2'
+    ]
+};
+app.use(cookieSession(cookie)); 
+// COOKIE SESSION
 
 // Puerto de la app
 const PORT = process.env.PORT || 4000;
+
+//documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Importar rutas
 app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/proyectos', require('./routes/proyectos'));
-app.use('/api/tareas', require('./routes/tareas'));
 
 // Arrancar la app
 app.listen(PORT, () => {

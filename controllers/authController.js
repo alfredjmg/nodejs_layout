@@ -1,7 +1,6 @@
-const Usuario = require('../models/Usuario');
 const bcryptjs = require('bcryptjs');
 const { validationResult } = require('express-validator');
-const jwt = require('jsonwebtoken');
+const Usuario = require('../models/Usuario');
 
 exports.autenticarUsuario = async (req, res) => {
     // revisar si hay errores
@@ -22,28 +21,12 @@ exports.autenticarUsuario = async (req, res) => {
 
         // Revisar el password
         const passCorrecto = await bcryptjs.compare(password, usuario.password);
-
         if(!passCorrecto){
             return res.status(400).json({ msg: 'Password incorrecto' });
         }
 
-        // Si todo es correcto crear y firmar el jwt
-        const payload = {
-            usuario: {
-                id: usuario.id
-            }
-        };
-
-        // Firmar el token
-        jwt.sign(payload, process.env.SECRETA, {
-            expiresIn: 3600
-        }, (error,token) => {
-            if(error) throw error;
-
-            // Mensaje de confirmacion
-            res.json({ token });
-        });
-
+        req.session.user = usuario._id;
+        res.json(req.session);
     }catch (error) {
         console.log(error);
     } 

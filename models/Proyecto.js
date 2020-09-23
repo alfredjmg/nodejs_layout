@@ -6,13 +6,20 @@ const ProyectoSchema = mongoose.Schema({
         required: true,
         trim: true
     },
+    sub_nombre: {
+        type: String,
+        required: true,
+        trim: true
+    },
     creador: {
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Usuario'
+        ref: 'Usuario',
+        required: true
     },
     creado: {
         type: Date,
-        default: Date.now()
+        default: Date.now(),
+        required: true,
     }
 });
 

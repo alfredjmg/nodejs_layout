@@ -4,13 +4,24 @@ const router = express.Router();
 const { check } = require('express-validator');
 const authController = require('../controllers/authController');
 
-// api/auth
-router.post('/',
-    [
-        check('email', 'Agrega un email válido').isEmail(),
-        check('password', 'El password debe ser minimo de 6 caracteres').isLength({ min: 6})
-    ],
-    authController.autenticarUsuario
+router.post('/sign-up',
+    authController.signUp
+);
+
+// router.post('/sign-up/activate/:token',
+//     authController.autenticarUsuario
+// );
+
+// router.post('/resend-email',
+//     authController.autenticarUsuario
+// );
+
+router.post('/log-in',
+    authController.logIn
+);
+
+router.post('/log-out',
+    authController.logOut
 );
 
 module.exports = router;

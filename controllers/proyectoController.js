@@ -9,22 +9,24 @@ exports.crearProyecto = async (req, res) => {
         proyecto.creador = req.session.user;
         // Guardamos el proyecto
         await proyecto.save({runValidators: true }, async(err,proyectoDB) => {
-            var error;
+            var errors;
             if(err){
                 if(err.errors.hasOwnProperty('nombre')){
-                    error = err.errors.nombre.properties.message;
+                    mongo_errors = err.errors.nombre.properties.message;
                 }
-                return res.status(401).json({
+                if(err.errors.hasOwnProperty('sub_nombre')){
+                    mongo_errors = err.errors.sub_nombre.properties.message;
+                }
+                return res.status(400).json({
                     ok: false,
-                    error
+                    errors
                 })
             }
             res.json(proyectoDB);
         });
-
     }catch(error){
         console.log(error);
-        res.status(500).send('Hubo un error');
+        res.status(500).send('Server Error');
     }
 }
 
@@ -35,7 +37,7 @@ exports.obtenerProyectos = async (req, res) => {
         res.json({ proyectos });
     }catch(error){
         console.log(error);
-        res.status(500).send('Hubo un error');
+        res.status(500).send('Server Error');
     }
 }
 

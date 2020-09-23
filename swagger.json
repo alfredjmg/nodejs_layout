@@ -12,6 +12,109 @@
     "basePath": "",
     "paths": {
 
+        "/auth/sign-up": {
+            "post": {
+                "summary": "sign-up",
+                "description": "Ruta para sign up",
+                "parameters":                            
+                [{
+                    "name": "user",
+                    "in": "body",
+                    "description": "Crear usuario",
+                    "properties": {
+                        "email": {
+                            "type": "string",
+                            "example": "alfredomujicagodoy@gmail.com"
+                        },
+                        "password": {
+                            "type": "string",
+                            "example": "123456"
+                        },
+                        "country_id": {
+                            "type": "string",
+                            "example": "5f68ca7d0b97c50252c3b4df"
+                        },
+                        "role_id": {
+                            "type": "string",
+                            "example": "5f68ca7e0b97c50252c3c443"
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Login",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ok": {
+                                    "type": "boolean",
+                                    "example": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "/auth/log-in": {
+            "post": {
+                "summary": "Login",
+                "description": "Ruta para Login",
+                "parameters":                            
+                [{
+                    "name": "user",
+                    "in": "body",
+                    "description": "Login de usuario",
+                    "properties": {
+                        "email": {
+                            "type": "string",
+                            "example": "test@gmail.com"
+                        },
+                        "password": {
+                            "type": "string",
+                            "example": "test@gmail.com"
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Login",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ok": {
+                                    "type": "boolean",
+                                    "example": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "/auth/log-out": {
+            "post": {
+                "summary": "Logout",
+                "description": "Ruta para Logout",
+                "responses": {
+                    "200": {
+                        "description": "Logout",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ok": {
+                                    "type": "boolean",
+                                    "example": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
         "/auth": {
             "post": {
                 "summary": "Login",
@@ -24,17 +127,38 @@
                     "properties": {
                         "email": {
                             "type": "string",
-                            "example": "correo@correo.com"
+                            "example": "test@gmail.com"
                         },
                         "password": {
                             "type": "string",
-                            "example": "123456"
+                            "example": "test@gmail.com"
                         }
                     }
                 }],
                 "responses": {
                     "200": {
                         "description": "Login",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ok": {
+                                    "type": "boolean",
+                                    "example": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "/users/get-users": {
+            "get": {
+                "summary": "Users",
+                "description": "Ruta que permite obtener todos usuarios",
+                "responses": {
+                    "200": {
+                        "description": "Lista de usuarios",
                         "schema": {
                             "type": "object",
                             "properties": {
